@@ -9,6 +9,11 @@ span.path:hover {
     cursor: pointer;
 }
 
+span.path:hover, img:hover {
+    opacity: 0.7;
+    cursor: pointer;
+}
+
 #toolbar {
     top: 0px;
     position: absolute;
