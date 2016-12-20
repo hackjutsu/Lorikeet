@@ -3,9 +3,12 @@
 var document;
 var fileSystem = require('./fileSystem');
 var search = require('./search');
+var path = require('path');
 
 function displayFolderPath(folderPath) {
-	document.getElementById('current-folder').innerText = folderPath;
+	document.getElementById('current-folder')
+			.innerHTML = convertFolderPathIntoLinks(folderPath);
+	bindCurrentFolderPath();
 }
 
 function clearView() {
@@ -73,6 +76,33 @@ function resetFilter() {
 	var items = document.getElementsByClassName('item');
 	for (var i=0; i<items.length; i++) {
 		items[i].style = null;
+	}
+}
+
+function convertFolderPathIntoLinks(folderPath) {
+	var folders = folderPath.split(path.sep);
+	var contents = [];
+	var pathAtFolder = '';
+	folders.forEach(function(folder) {
+		pathAtFolder += folder + path.sep;
+		console.log(pathAtFolder.slice(0, -1));
+		contents.push('<span class="path" data-path="' +
+				pathAtFolder.slice(0, -1) +
+				'">' +
+				folder +
+				'</span>');
+	});
+	return contents.join(path.sep).toString();
+}
+
+function bindCurrentFolderPath() {
+	var load = function(event) {
+		var folderPath = event.target.getAttribute('data-path');
+		loadDirectory(folderPath)();
+	};
+	var paths = document.getElementsByClassName('path');
+	for (var i=0; i<paths.length; i++) {
+		paths[i].addEventListener('click', load, false);
 	}
 }
 
