@@ -1,0 +1,9 @@
+{
+  "name": "lorikeet",
+  "version": "1.0.0",
+  "main": "index.html",
+  "dependencies": {
+      "async": "^2.1.4",
+      "osenv": "^0.1.3"
+  }
+}
