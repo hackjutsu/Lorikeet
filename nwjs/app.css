@@ -29,6 +29,16 @@ body {
     z-index: 1;
 }
 
+#search {
+    float: right;
+    padding: 0.5em;
+    min-width: 10em;
+    border-radius: 3em;
+    margin: 2em 1em;
+    border: none;
+    outline: none;
+}
+
 .item {
     position: relative;
     float: left;;

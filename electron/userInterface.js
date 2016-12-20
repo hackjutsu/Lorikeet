@@ -2,6 +2,7 @@
 
 var document;
 var fileSystem = require('./fileSystem');
+var search = require('./search');
 
 function displayFolderPath(folderPath) {
 	document.getElementById('current-folder').innerText = folderPath;
@@ -19,6 +20,7 @@ function clearView() {
 function loadDirectory(folderPath) {
 	return function(window) {
 		if (!document) document = window.document;
+		search.resetIndex();
 		displayFolderPath(folderPath);
 		fileSystem.getFilesInFolder(folderPath, function (err, files) {
 			clearView();
@@ -29,10 +31,12 @@ function loadDirectory(folderPath) {
 }
 
 function displayFile(file) {
+	search.addToIndex(file);
 	var mainArea = document.getElementById('main-area');
 	var template = document.querySelector('#item-template');
 	var clone = document.importNode(template.content, true);
 	clone.querySelector('img').src = 'images/' + file.type + '.svg';
+	clone.querySelector('img').setAttribute('data-filePath', file.path);
 	if (file.type === 'directory') {
 		clone.querySelector('img').addEventListener('dblclick', loadDirectory(file.path), false);
 	}
@@ -46,7 +50,36 @@ function displayFiles(err, files) {
 	files.forEach(displayFile);
 }
 
+function bindSearchField(cb) {
+	document.getElementById('search').addEventListener('keyup', cb, false);
+}
+
+function filterResults(results) {
+	var validFilePaths = results.map(function(result) { return result.ref; });
+
+	var items = document.getElementsByClassName('item');
+	for (var i=0; i<items.length; i++) {
+		var item = items[i];
+		var filePath = item.getElementsByTagName('img')[0].getAttribute('data-filePath');
+		if (validFilePaths.indexOf(filePath) !== -1) {
+			item.style = null;
+		} else {
+			item.style = 'display:none;';
+		}
+	}
+}
+
+function resetFilter() {
+	var items = document.getElementsByClassName('item');
+	for (var i=0; i<items.length; i++) {
+		items[i].style = null;
+	}
+}
+
 module.exports = {
 	displayFiles: displayFiles,
-	loadDirectory: loadDirectory
+	loadDirectory: loadDirectory,
+	bindSearchField: bindSearchField,
+	filterResults: filterResults,
+	resetFilter: resetFilter
 };
