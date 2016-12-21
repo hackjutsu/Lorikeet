@@ -2,9 +2,26 @@
   "name": "lorikeet",
   "version": "1.0.0",
   "main": "main.js",
+  "author": "Batman",
+  "description": "a file explorer application",
   "dependencies": {
     "async": "^2.1.4",
     "lunr": "^0.7.2",
     "osenv": "^0.1.3"
+  },
+  "devDependencies": {
+    "electron-builder": "^10.9.2",
+    "electron-prebuilt": "^1.4.13"
+  },
+  "scripts": {
+    "build": "electron .",
+    "pack": "build",
+    "dist": "build"
+  },
+  "build": {
+    "appId": "com.test.lorikeet",
+    "mac": {
+      "category": "public.app-category.education"
+    }
   }
 }
