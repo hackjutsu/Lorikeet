@@ -15,13 +15,16 @@
   },
   "scripts": {
     "build": "electron .",
-    "pack": "build",
+    "pack": "build --dir",
     "dist": "build"
   },
   "build": {
     "appId": "com.test.lorikeet",
     "mac": {
       "category": "public.app-category.education"
+    },
+    "win": {
+      "target": "7z"
     }
   }
 }
