@@ -7,6 +7,8 @@ We use [electron-builder](https://github.com/electron-userland/electron-builder)
 
 To build app for Windows, Mac and Linux:
 ```bash
+cd electron
+npm install
 node_modules/.bin/build -mwl
 ```
 
@@ -14,6 +16,8 @@ node_modules/.bin/build -mwl
 We use [nw-builder](https://github.com/nwjs/nw-builder) for Electron app packaging.
 
 ```bash
+cd nwjs
+npm install
 npm install evshiron/nw-builder -g
 nwbuild –p win32,win64,osx32,osx64,linux32,linux64 –o ./build .
 ```
